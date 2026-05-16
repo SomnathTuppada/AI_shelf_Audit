@@ -17,6 +17,7 @@ app.add_middleware(
 # ROUTES
 app.include_router(analyze_router)
 
+
 @app.get("/")
 def home():
     return {

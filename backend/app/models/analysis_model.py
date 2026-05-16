@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 from typing import List
 
+from app.models.issue_model import Issue
+
 
 class AnalysisResult(BaseModel):
 
@@ -10,5 +12,6 @@ class AnalysisResult(BaseModel):
     trust_score: int
     completeness_score: int
 
-    issues: List[str]
+    issues: List[Issue]
+
     recommendations: List[str]

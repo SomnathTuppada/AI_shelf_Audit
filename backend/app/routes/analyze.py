@@ -1,26 +1,17 @@
 from fastapi import APIRouter
 
+from app.models.product_model import Product
+from app.scoring.scoring_engine import calculate_score
+
 router = APIRouter()
 
 
-@router.get("/mock-analysis")
-def mock_analysis():
+@router.post("/analyze")
+def analyze_product(product: Product):
+
+    result = calculate_score(product)
 
     return {
-        "overall_score": 65,
-        "clarity_score": 70,
-        "trust_score": 50,
-        "completeness_score": 80,
-
-        "issues": [
-            "Missing warranty information",
-            "Missing shipping information",
-            "No customer reviews available"
-        ],
-
-        "recommendations": [
-            "Add warranty details",
-            "Include shipping details",
-            "Collect customer reviews"
-        ]
+        "product": product.product_name,
+        "analysis": result
     }
