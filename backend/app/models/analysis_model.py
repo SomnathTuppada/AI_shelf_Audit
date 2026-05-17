@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import List
 
 from app.models.issue_model import Issue
-
+from app.models.recommendation_model import Recommendation
 
 class AnalysisResult(BaseModel):
 
@@ -14,4 +14,4 @@ class AnalysisResult(BaseModel):
 
     issues: List[Issue]
 
-    recommendations: List[str]
+    recommendations: List[Recommendation]

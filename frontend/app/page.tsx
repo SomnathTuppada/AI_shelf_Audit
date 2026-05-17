@@ -3,9 +3,10 @@
 import { useState } from "react";
 import axios from "axios";
 
-import ScoreCard from "@/components/ScoreCard";
-import IssueCard from "@/components/IssueCard";
-import RecommendationCard from "@/components/RecommendationCard";
+import ScoreCard from "@/components/dashboard/ScoreCard";
+import IssueCard from "@/components/dashboard/IssueCard";
+import RecommendationCard from "@/components/dashboard/RecommendationCard";
+import AIMetricCard from "@/components/dashboard/AIMetricCard";
 
 export default function Home() {
 
@@ -62,11 +63,18 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-100 text-black p-8">
+    <main className="min-h-screen  text-black p-8">
 
-      <h1 className="text-4xl font-bold mb-8">
-        AI Shelf Audit
-      </h1>
+      <div className="mb-10">
+
+        <h1 className="text-5xl font-bold text-gray-400 mb-2">
+          AI Shelf Audit
+        </h1>
+
+        <p className="text-gray-500 text-lg">
+          AI-powered commerce intelligence dashboard
+        </p>
+      </div>
 
       {/* PRODUCT FORM */}
       <form
@@ -155,7 +163,10 @@ export default function Home() {
 
         <>
           {/* SCORE CARDS */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <h2 className="text-3xl font-bold text-gray-200 mb-4">
+              Scores
+            </h2>   
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
 
             <ScoreCard
               title="Overall Score"
@@ -178,10 +189,75 @@ export default function Home() {
             />
           </div>
 
-          {/* ISSUES */}
+          {/* AI METRICS */}
           <div className="mb-10">
 
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="text-3xl font-bold text-gray-200 mb-4">
+              AI Intelligence Metrics
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+              <AIMetricCard
+                title="AI Trust Score"
+                value={analysis.ai_analysis.trust_score}
+              />
+
+              <AIMetricCard
+                title="AI Confidence"
+                value={analysis.ai_analysis.ai_confidence}
+              />
+
+              <AIMetricCard
+                title="Ambiguity Level"
+                value={analysis.ai_analysis.ambiguity_level}
+              />
+            </div>
+          </div>
+
+          {/* MISSING INFORMATION */}
+          <div className="mb-10">
+
+            <div className="bg-white rounded-xl shadow-md p-6">
+
+              <ul className="list-disc pl-6 space-y-2">
+
+                {analysis.ai_analysis.missing_information.map(
+                  (
+                    item: string,
+                    index: number
+                  ) => (
+
+                    <li key={index}>
+                      {item}
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+          </div>
+
+
+          {/* AI SUMMARY */}
+          <div className="mt-10">
+
+            <h2 className="text-2xl font-bold text-gray-200 mb-4">
+              AI Semantic Summary
+            </h2>
+
+            <div className="bg-white p-6 rounded-xl shadow-md">
+
+              <p className="text-gray-700 whitespace-pre-line">
+                {analysis.ai_analysis.summary}
+              </p>
+            </div>
+          </div>
+
+
+          {/* ISSUES */}
+          <div className="mt-10">
+
+            <h2 className="text-2xl font-bold text-gray-200 mb-4">
               Detected Issues
             </h2>
 
@@ -200,24 +276,9 @@ export default function Home() {
           </div>
 
           {/* RECOMMENDATIONS */}
-          <div>
-
-          {/* AI ANALYSIS */}
           <div className="mt-10">
 
-            <h2 className="text-2xl font-bold mb-4">
-              AI Semantic Analysis
-            </h2>
-
-            <div className="bg-white p-6 rounded-xl shadow-md">
-
-              <p className="text-gray-700 whitespace-pre-line">
-                {analysis.ai_analysis}
-              </p>
-            </div>
-          </div>
-
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="text-2xl font-bold text-gray-200 mb-4">
               Recommendations
             </h2>
 
@@ -225,7 +286,7 @@ export default function Home() {
 
               {analysis.recommendations.map(
                 (
-                  recommendation: string,
+                  recommendation: any,
                   index: number
                 ) => (
 

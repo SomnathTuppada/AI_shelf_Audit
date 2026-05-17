@@ -2,6 +2,7 @@ from app.models.product_model import Product
 from app.services.ai_analysis import analyze_product_with_ai
 
 
+
 def calculate_score(product: Product):
 
     clarity_score = 100
@@ -23,9 +24,11 @@ def calculate_score(product: Product):
             "impact_score": 25
         })
 
-        recommendations.append(
-            "Add warranty details to improve trust"
-        )
+        recommendations.append({
+            "message": "Add warranty details to improve customer trust",
+            "priority": "HIGH",
+            "impact_score": 25
+        })
 
     # SHIPPING
     if not product.shipping_info:
@@ -39,9 +42,11 @@ def calculate_score(product: Product):
             "impact_score": 15
         })
 
-        recommendations.append(
-            "Include shipping details"
-        )
+        recommendations.append({
+            "message": "Include shipping details for better transparency",
+            "priority": "MEDIUM",
+            "impact_score": 15
+        })
 
     # REVIEWS
     if len(product.reviews) == 0:
@@ -54,9 +59,11 @@ def calculate_score(product: Product):
             "impact_score": 30
         })
 
-        recommendations.append(
-            "Collect customer reviews"
-        )
+        recommendations.append({
+            "message": "Collect customer reviews to improve recommendation confidence",
+            "priority": "HIGH",
+            "impact_score": 30
+        })
 
     # DESCRIPTION
     if len(product.description) < 20:
@@ -69,9 +76,11 @@ def calculate_score(product: Product):
             "impact_score": 10
         })
 
-        recommendations.append(
-            "Expand product description"
-        )
+        recommendations.append({
+            "message": "Expand product description with detailed features",
+            "priority": "LOW",
+            "impact_score": 10
+        })
 
     # SORT ISSUES
     issues = sorted(
@@ -80,14 +89,19 @@ def calculate_score(product: Product):
         reverse=True
     )
 
-    # FINAL SCORE
+    # SORT RECOMMENDATIONS
+    recommendations = sorted(
+        recommendations,
+        key=lambda x: x["impact_score"],
+        reverse=True
+    )
+
     overall_score = int(
         (clarity_score * 0.3)
         + (trust_score * 0.4)
         + (completeness_score * 0.3)
     )
 
-    # AI ANALYSIS
     ai_analysis = analyze_product_with_ai(
         product.dict()
     )
